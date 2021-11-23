@@ -45,164 +45,164 @@ describe("getAvailabilities", () => {
     });
   });
 
-  describe("openings", () => {
-    it("one opening", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 11:00").toISOString(),
-          ends_at: new Date("2020-01-01 11:30").toISOString(),
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-      expect(availabilities["2020-01-01"]).toEqual(["11:00"]);
-    });
+  // describe("openings", () => {
+  //   it("one opening", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 11:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 11:30").toISOString(),
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+  //     expect(availabilities["2020-01-01"]).toEqual(["11:00"]);
+  //   });
 
-    it("30 minutes slots", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 11:00").toISOString(),
-          ends_at: new Date("2020-01-01 12:00").toISOString(),
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-      expect(availabilities["2020-01-01"]).toEqual(["11:00", "11:30"]);
-    });
+  //   it("30 minutes slots", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 11:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 12:00").toISOString(),
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+  //     expect(availabilities["2020-01-01"]).toEqual(["11:00", "11:30"]);
+  //   });
 
-    it("several openings on the same day", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 11:00").toISOString(),
-          ends_at: new Date("2020-01-01 12:00").toISOString(),
-        },
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 14:00").toISOString(),
-          ends_at: new Date("2020-01-01 15:00").toISOString(),
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-      expect(availabilities["2020-01-01"]).toEqual([
-        "11:00",
-        "11:30",
-        "14:00",
-        "14:30",
-      ]);
-    });
+  //   it("several openings on the same day", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 11:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 12:00").toISOString(),
+  //       },
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 14:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 15:00").toISOString(),
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+  //     expect(availabilities["2020-01-01"]).toEqual([
+  //       "11:00",
+  //       "11:30",
+  //       "14:00",
+  //       "14:30",
+  //     ]);
+  //   });
 
-    it("format", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 09:00").toISOString(),
-          ends_at: new Date("2020-01-01 09:30").toISOString(),
-        },
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 14:00").toISOString(),
-          ends_at: new Date("2020-01-01 14:30").toISOString(),
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-      expect(availabilities["2020-01-01"]).toEqual(["9:00", "14:00"]);
-    });
-  });
+  //   it("format", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 09:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 09:30").toISOString(),
+  //       },
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 14:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 14:30").toISOString(),
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+  //     expect(availabilities["2020-01-01"]).toEqual(["9:00", "14:00"]);
+  //   });
+  // });
 
-  describe("appointments", () => {
-    beforeEach(
-      async () =>
-        await knexClient("events").insert([
-          {
-            kind: "opening",
-            starts_at: new Date("2020-01-01 09:00").toISOString(),
-            ends_at: new Date("2020-01-01 10:00").toISOString(),
-          },
-        ])
-    );
+  // describe("appointments", () => {
+  //   beforeEach(
+  //     async () =>
+  //       await knexClient("events").insert([
+  //         {
+  //           kind: "opening",
+  //           starts_at: new Date("2020-01-01 09:00").toISOString(),
+  //           ends_at: new Date("2020-01-01 10:00").toISOString(),
+  //         },
+  //       ])
+  //   );
 
-    it("an appointment of one slot", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "appointment",
-          starts_at: new Date("2020-01-01 09:00").toISOString(),
-          ends_at: new Date("2020-01-01 09:30").toISOString(),
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-      expect(availabilities["2020-01-01"]).toEqual(["9:30"]);
-    });
+  //   it("an appointment of one slot", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "appointment",
+  //         starts_at: new Date("2020-01-01 09:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 09:30").toISOString(),
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+  //     expect(availabilities["2020-01-01"]).toEqual(["9:30"]);
+  //   });
 
-    it("an appointment of several slots", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "appointment",
-          starts_at: new Date("2020-01-01 09:00").toISOString(),
-          ends_at: new Date("2020-01-01 10:00").toISOString(),
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-      expect(availabilities["2020-01-01"]).toEqual([]);
-    });
+  //   it("an appointment of several slots", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "appointment",
+  //         starts_at: new Date("2020-01-01 09:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 10:00").toISOString(),
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+  //     expect(availabilities["2020-01-01"]).toEqual([]);
+  //   });
 
-    it("several appointments on the same day", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "appointment",
-          starts_at: new Date("2020-01-01 09:00").toISOString(),
-          ends_at: new Date("2020-01-01 09:30").toISOString(),
-        },
-        {
-          kind: "appointment",
-          starts_at: new Date("2020-01-01 09:30").toISOString(),
-          ends_at: new Date("2020-01-01 10:00").toISOString(),
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-      expect(availabilities["2020-01-01"]).toEqual([]);
-    });
-  });
+  //   it("several appointments on the same day", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "appointment",
+  //         starts_at: new Date("2020-01-01 09:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 09:30").toISOString(),
+  //       },
+  //       {
+  //         kind: "appointment",
+  //         starts_at: new Date("2020-01-01 09:30").toISOString(),
+  //         ends_at: new Date("2020-01-01 10:00").toISOString(),
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+  //     expect(availabilities["2020-01-01"]).toEqual([]);
+  //   });
+  // });
 
-  describe("weekly recurring openings", () => {
-    it("weekly recurring are taken into account day 1", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 09:00").toISOString(),
-          ends_at: new Date("2020-01-01 09:30").toISOString(),
-          weekly_recurring: true,
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-      expect(availabilities["2020-01-01"]).toEqual(["9:00"]);
-    });
+  // describe("weekly recurring openings", () => {
+  //   it("weekly recurring are taken into account day 1", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 09:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 09:30").toISOString(),
+  //         weekly_recurring: true,
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+  //     expect(availabilities["2020-01-01"]).toEqual(["9:00"]);
+  //   });
 
-    it("weekly recurring are recurring", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 09:00").toISOString(),
-          ends_at: new Date("2020-01-01 09:30").toISOString(),
-          weekly_recurring: true,
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-08 00:00"));
-      expect(availabilities["2020-01-08"]).toEqual(["9:00"]);
-    });
+  //   it("weekly recurring are recurring", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 09:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 09:30").toISOString(),
+  //         weekly_recurring: true,
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-08 00:00"));
+  //     expect(availabilities["2020-01-08"]).toEqual(["9:00"]);
+  //   });
 
-    it("non weekly recurring are not recurring", async () => {
-      await knexClient("events").insert([
-        {
-          kind: "opening",
-          starts_at: new Date("2020-01-01 09:00").toISOString(),
-          ends_at: new Date("2020-01-01 09:30").toISOString(),
-          weekly_recurring: false,
-        },
-      ]);
-      availabilities = await getAvailabilities(new Date("2020-01-08 00:00"));
-      expect(availabilities["2020-01-08"]).toEqual([]);
-    });
-  });
+  //   it("non weekly recurring are not recurring", async () => {
+  //     await knexClient("events").insert([
+  //       {
+  //         kind: "opening",
+  //         starts_at: new Date("2020-01-01 09:00").toISOString(),
+  //         ends_at: new Date("2020-01-01 09:30").toISOString(),
+  //         weekly_recurring: false,
+  //       },
+  //     ]);
+  //     availabilities = await getAvailabilities(new Date("2020-01-08 00:00"));
+  //     expect(availabilities["2020-01-08"]).toEqual([]);
+  //   });
+  // });
 });
 ;

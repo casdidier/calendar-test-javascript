@@ -2,7 +2,7 @@
   "name": "candidate-test",
   "description": "developer test.",
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles"
+    "test": "jest --runInBand --detectOpenHandles --watchAll --verbose"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.14.4",
