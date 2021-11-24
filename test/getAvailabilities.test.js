@@ -45,70 +45,70 @@ describe("getAvailabilities", () => {
     });
   });
 
-  // describe("openings", () => {
-  //   it("one opening", async () => {
-  //     await knexClient("events").insert([
-  //       {
-  //         kind: "opening",
-  //         starts_at: new Date("2020-01-01 11:00").toISOString(),
-  //         ends_at: new Date("2020-01-01 11:30").toISOString(),
-  //       },
-  //     ]);
-  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-  //     expect(availabilities["2020-01-01"]).toEqual(["11:00"]);
-  //   });
+  describe("openings", () => {
+    it("one opening", async () => {
+      await knexClient("events").insert([
+        {
+          kind: "opening",
+          starts_at: new Date("2020-01-01 11:00").toISOString(),
+          ends_at: new Date("2020-01-01 11:30").toISOString(),
+        },
+      ]);
+      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+      expect(availabilities["2020-01-01"]).toEqual(["11:00"]);
+    });
 
-  //   it("30 minutes slots", async () => {
-  //     await knexClient("events").insert([
-  //       {
-  //         kind: "opening",
-  //         starts_at: new Date("2020-01-01 11:00").toISOString(),
-  //         ends_at: new Date("2020-01-01 12:00").toISOString(),
-  //       },
-  //     ]);
-  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-  //     expect(availabilities["2020-01-01"]).toEqual(["11:00", "11:30"]);
-  //   });
+    it("30 minutes slots", async () => {
+      await knexClient("events").insert([
+        {
+          kind: "opening",
+          starts_at: new Date("2020-01-01 11:00").toISOString(),
+          ends_at: new Date("2020-01-01 12:00").toISOString(),
+        },
+      ]);
+      availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+      expect(availabilities["2020-01-01"]).toEqual(["11:00", "11:30"]);
+    });
 
-  //   it("several openings on the same day", async () => {
-  //     await knexClient("events").insert([
-  //       {
-  //         kind: "opening",
-  //         starts_at: new Date("2020-01-01 11:00").toISOString(),
-  //         ends_at: new Date("2020-01-01 12:00").toISOString(),
-  //       },
-  //       {
-  //         kind: "opening",
-  //         starts_at: new Date("2020-01-01 14:00").toISOString(),
-  //         ends_at: new Date("2020-01-01 15:00").toISOString(),
-  //       },
-  //     ]);
-  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-  //     expect(availabilities["2020-01-01"]).toEqual([
-  //       "11:00",
-  //       "11:30",
-  //       "14:00",
-  //       "14:30",
-  //     ]);
-  //   });
+    // it("several openings on the same day", async () => {
+    //   await knexClient("events").insert([
+    //     {
+    //       kind: "opening",
+    //       starts_at: new Date("2020-01-01 11:00").toISOString(),
+    //       ends_at: new Date("2020-01-01 12:00").toISOString(),
+    //     },
+    //     {
+    //       kind: "opening",
+    //       starts_at: new Date("2020-01-01 14:00").toISOString(),
+    //       ends_at: new Date("2020-01-01 15:00").toISOString(),
+    //     },
+    //   ]);
+    //   availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+    //   expect(availabilities["2020-01-01"]).toEqual([
+    //     "11:00",
+    //     "11:30",
+    //     "14:00",
+    //     "14:30",
+    //   ]);
+    // });
 
-  //   it("format", async () => {
-  //     await knexClient("events").insert([
-  //       {
-  //         kind: "opening",
-  //         starts_at: new Date("2020-01-01 09:00").toISOString(),
-  //         ends_at: new Date("2020-01-01 09:30").toISOString(),
-  //       },
-  //       {
-  //         kind: "opening",
-  //         starts_at: new Date("2020-01-01 14:00").toISOString(),
-  //         ends_at: new Date("2020-01-01 14:30").toISOString(),
-  //       },
-  //     ]);
-  //     availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
-  //     expect(availabilities["2020-01-01"]).toEqual(["9:00", "14:00"]);
-  //   });
-  // });
+    // it("format", async () => {
+    //   await knexClient("events").insert([
+    //     {
+    //       kind: "opening",
+    //       starts_at: new Date("2020-01-01 09:00").toISOString(),
+    //       ends_at: new Date("2020-01-01 09:30").toISOString(),
+    //     },
+    //     {
+    //       kind: "opening",
+    //       starts_at: new Date("2020-01-01 14:00").toISOString(),
+    //       ends_at: new Date("2020-01-01 14:30").toISOString(),
+    //     },
+    //   ]);
+    //   availabilities = await getAvailabilities(new Date("2020-01-01 00:00"));
+    //   expect(availabilities["2020-01-01"]).toEqual(["9:00", "14:00"]);
+    // });
+  });
 
   // describe("appointments", () => {
   //   beforeEach(
@@ -205,4 +205,3 @@ describe("getAvailabilities", () => {
   //   });
   // });
 });
-;
