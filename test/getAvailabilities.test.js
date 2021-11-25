@@ -189,17 +189,17 @@ describe("getAvailabilities", () => {
       availabilities = await getAvailabilities(new Date("2020-01-08 00:00"));
       expect(availabilities["2020-01-08"]).toEqual(["9:00"]);
     });
-    // it("non weekly recurring are not recurring", async () => {
-    //   await knexClient("events").insert([
-    //     {
-    //       kind: "opening",
-    //       starts_at: new Date("2020-01-01 09:00").toISOString(),
-    //       ends_at: new Date("2020-01-01 09:30").toISOString(),
-    //       weekly_recurring: false,
-    //     },
-    //   ]);
-    //   availabilities = await getAvailabilities(new Date("2020-01-08 00:00"));
-    //   expect(availabilities["2020-01-08"]).toEqual([]);
-    // });
+    it("non weekly recurring are not recurring", async () => {
+      await knexClient("events").insert([
+        {
+          kind: "opening",
+          starts_at: new Date("2020-01-01 09:00").toISOString(),
+          ends_at: new Date("2020-01-01 09:30").toISOString(),
+          weekly_recurring: false,
+        },
+      ]);
+      availabilities = await getAvailabilities(new Date("2020-01-08 00:00"));
+      expect(availabilities["2020-01-08"]).toEqual([]);
+    });
   });
 });
